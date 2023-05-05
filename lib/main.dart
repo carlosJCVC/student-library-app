@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Student Library',
-      routerConfig: appRouter,
+      routerConfig: AppRouter().getRoutes(),
       theme: AppTheme().getTheme(),
     );
   }

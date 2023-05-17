@@ -32,8 +32,10 @@ class AppTheme {
       //* Buttons
 
       //* AppBar
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         color: scaffoldBackgroundColor,
+        toolbarTextStyle: const TextTheme().bodyMedium,
+        titleTextStyle: const TextTheme().titleLarge,
       ),
     );
   }

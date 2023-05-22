@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:student_library_app/src/features/auth/presentation/providers/auth_provider/auth_state.dart';
 
+import 'package:student_library_app/src/features/auth/presentation/providers/auth_provider/auth_state.dart';
 import 'package:student_library_app/src/features/auth/presentation/screens/screens.dart';
+import 'package:student_library_app/src/features/books/presentation/screens/books_screen.dart';
 import 'package:student_library_app/src/features/faculties/presentation/screens/faculties_screen.dart';
 import 'package:student_library_app/src/features/home/presentation/screens/screens.dart';
 import 'package:student_library_app/src/router/app_router_notifier.dart';
@@ -28,6 +29,7 @@ class AppRouter {
         buildRoute(path: '/login', screen: const LoginScreen()),
         buildRoute(path: '/register', screen: const RegisterScreen()),
         buildRoute(path: '/faculties', screen: const FacultiesScreen()),
+        buildRoute(path: '/books', screen: const BooksScreen()),
       ],
       // redirect: (context, state) {
       //   final isGoingTo = state.matchedLocation;

@@ -50,7 +50,7 @@ class SideMenuState extends ConsumerState<SideMenu> {
         ),
         const NavigationDrawerDestination(
           icon: Icon(Icons.home_outlined),
-          label: Text('Productos'),
+          label: Text('Profile'),
         ),
         const Padding(
           padding: EdgeInsets.fromLTRB(28, 16, 28, 10),

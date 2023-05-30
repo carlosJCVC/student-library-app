@@ -1,9 +1,12 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'dart:ui';
 
+import 'package:student_library_app/src/features/books/presentation/providers/providers.dart';
+import 'package:student_library_app/src/features/books/presentation/widgets/widgets.dart';
 import 'package:student_library_app/src/features/home/presentation/widgets/widgets.dart';
 import 'package:student_library_app/src/widgets/side_menu.dart';
 
@@ -14,72 +17,69 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
 
-    return Scaffold(
-      drawer: SideMenu(scaffoldKey: scaffoldKey),
-      appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.white, size: 30),
-        title: const Text(
-          'Student Library',
-          style: TextStyle(color: Colors.white),
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        drawer: SideMenu(scaffoldKey: scaffoldKey),
+        appBar: AppBar(
+          iconTheme: const IconThemeData(size: 30),
+          title: const Text(
+            'Libreria Estudiantil',
+          ),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.notifications_none_outlined),
+            )
+          ],
         ),
-        backgroundColor: const Color(0xff7E32E3),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.notifications_none_outlined),
-          )
-        ],
-      ),
-      body: const _HomeView(),
-      floatingActionButton: FloatingActionButton.extended(
-        label: const Text('Add Subject'),
-        icon: const Icon(Icons.add),
-        onPressed: () {},
+        body: const _HomeView(),
       ),
     );
   }
 }
 
-class _HomeView extends StatelessWidget {
+class _HomeView extends ConsumerStatefulWidget {
   const _HomeView();
 
   @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: const [
-          HomeAppBar(),
-          PageTitle(),
-          CardTable(),
-        ],
-      ),
-    );
-  }
+  HomeViewState createState() => HomeViewState();
 }
 
-class PageTitle extends StatelessWidget {
-  const PageTitle({super.key});
+class HomeViewState extends ConsumerState<_HomeView> {
+  @override
+  void initState() {
+    super.initState();
+
+    ref.read(bookProvider.notifier).loadBooks();
+    ref.read(categoryProvider.notifier).loadCategories();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(top: 20),
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text(
-            'Categories',
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-              color: Colors.black54,
+    final books = ref.watch(bookProvider);
+    final categories = ref.watch(categoryProvider);
+
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const HomeAppBar(),
+          // AnnouncementSlide(),
+          BooksCategory(categories: categories),
+          HorizontalBooks(
+            books: books,
+            loadNextPage: () {},
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            width: double.infinity,
+            child: const Text(
+              '¿Qué estás buscando?',
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.start,
             ),
           ),
-          Spacer(),
-          // Icon(Icons.add_alarm_rounded, size: 35),
-          // Icon(Icons.add_task, size: 35),
-          // Icon(Icons.wrap_text, size: 35),
+          const CardTable(),
         ],
       ),
     );
@@ -120,7 +120,9 @@ class CardTable extends ConsumerWidget {
         TableRow(
           children: [
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                context.push('/books');
+              },
               child: const _SingleCard(
                 colorIcon: Color(0xff00B385),
                 icon: FontAwesomeIcons.book,
@@ -139,22 +141,6 @@ class CardTable extends ConsumerWidget {
             ),
           ],
         ),
-        // TableRow(
-        //   children: [
-        //     _SingleCard(
-        //       colorIcon: Color(0xff9100F2),
-        //       icon: Icons.access_time_sharp,
-        //       text: 'Time',
-        //       colorBackground: Color.fromRGBO(230, 208, 254, 1),
-        //     ),
-        //     _SingleCard(
-        //       colorIcon: Color(0xffFF7F72),
-        //       icon: Icons.adb_outlined,
-        //       text: 'Android',
-        //       colorBackground: Color.fromRGBO(255, 222, 204, 1),
-        //     ),
-        //   ],
-        // ),
       ],
     );
   }

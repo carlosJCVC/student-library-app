@@ -1,4 +1,3 @@
-import 'package:student_library_app/src/features/auth/domain/entities/entities.dart';
 import 'package:student_library_app/src/features/books/domain/entities/entities.dart';
 
 class BookMapper {

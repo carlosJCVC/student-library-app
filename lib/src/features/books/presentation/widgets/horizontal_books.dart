@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:animate_do/animate_do.dart';
-import 'package:go_router/go_router.dart';
 
 import 'package:student_library_app/src/features/books/domain/entities/entities.dart';
 
@@ -49,8 +48,17 @@ class _HorizontalBooksState extends State<HorizontalBooks> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.books.isEmpty) {
+      return const SizedBox(
+        height: 300,
+        child: Center(
+          child: Text('No se encontraron libros para esta categoria.'),
+        ),
+      );
+    }
+
     return SizedBox(
-      height: 350,
+      height: 280,
       child: Column(
         children: [
           if (widget.title != null || widget.subTitle != null)
@@ -101,7 +109,7 @@ class _BookSlide extends StatelessWidget {
                   fit: BoxFit.cover,
                   placeholder:
                       const AssetImage('assets/loaders/bottle-loader.gif'),
-                  image: NetworkImage(book.cover!),
+                  image: NetworkImage(book.cover),
                 ),
               ),
             ),

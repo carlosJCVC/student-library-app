@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:student_library_app/src/features/books/infrastructure/models/category.dart';
-import 'package:student_library_app/src/features/books/infrastructure/models/tag.dart';
+import 'package:student_library_app/src/features/books/infrastructure/models/category_model.dart';
+import 'package:student_library_app/src/features/books/infrastructure/models/tag_model.dart';
 
 class BookModel {
   final String id;
@@ -18,8 +18,8 @@ class BookModel {
   final String cover;
   final String thumbnail;
   final String numComments;
-  final List<Category> categories;
-  final List<Tag> tags;
+  final List<CategoryModel> categories;
+  final List<TagModel> tags;
 
   BookModel({
     required this.id,
@@ -58,11 +58,11 @@ class BookModel {
         cover: json["cover"],
         thumbnail: json["thumbnail"],
         numComments: json["num_comments"],
-        categories: List<Category>.from(
-          json["categories"].map((x) => Category.fromJson(x)),
+        categories: List<CategoryModel>.from(
+          json["categories"].map((x) => CategoryModel.fromJson(x)),
         ),
-        tags: List<Tag>.from(
-          json["tags"].map((x) => Tag.fromJson(x)),
+        tags: List<TagModel>.from(
+          json["tags"].map((x) => TagModel.fromJson(x)),
         ),
       );
 }

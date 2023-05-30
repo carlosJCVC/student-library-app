@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:student_library_app/src/features/books/domain/entities/entities.dart';
 import 'package:student_library_app/src/features/books/presentation/providers/book_provider.dart';
+
 import 'package:student_library_app/src/features/books/presentation/widgets/widgets.dart';
 
 class BooksScreen extends ConsumerStatefulWidget {

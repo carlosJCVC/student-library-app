@@ -4,7 +4,8 @@ import 'package:student_library_app/src/features/books/presentation/providers/bo
 
 import 'package:student_library_app/src/features/books/presentation/providers/providers.dart';
 
-final bookProvider = StateNotifierProvider<BookNotifier, List<Book>>((ref) {
+final bookByCategoryProvider =
+    StateNotifierProvider<BookNotifier, List<Book>>((ref) {
   final bookRepository = ref.watch(bookRepositoryProvider);
 
   return BookNotifier(fetchBooks: bookRepository.getBooksByCategory);

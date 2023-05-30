@@ -1,15 +1,15 @@
-class Tag {
+class TagModel {
   final int tagId;
   final String name;
   final String nicename;
 
-  Tag({
+  TagModel({
     required this.tagId,
     required this.name,
     required this.nicename,
   });
 
-  factory Tag.fromJson(Map<String, dynamic> json) => Tag(
+  factory TagModel.fromJson(Map<String, dynamic> json) => TagModel(
         tagId: json["tag_id"],
         name: json["name"],
         nicename: json["nicename"],

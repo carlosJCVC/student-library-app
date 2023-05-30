@@ -8,16 +8,15 @@ class HomeAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 15),
+      padding: const EdgeInsets.only(top: 15, right: 20, left: 20),
       width: double.infinity,
-      height: 200,
+      height: 110,
       decoration: _decoration(),
       child: Column(
         children: const [
           _GreetingText(),
           _WelcomeText(),
           SizedBox(height: 15),
-          _InputSearch()
         ],
       ),
     );
@@ -25,7 +24,6 @@ class HomeAppBar extends StatelessWidget {
 
   BoxDecoration _decoration() {
     return const BoxDecoration(
-      color: Color(0xff7E32E3),
       borderRadius: BorderRadius.only(
         bottomLeft: Radius.circular(50),
         bottomRight: Radius.circular(50),
@@ -42,10 +40,9 @@ class _GreetingText extends StatelessWidget {
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(top: 5),
-      padding: const EdgeInsets.symmetric(horizontal: 30),
       child: const Text(
-        'Hi Carlos',
-        style: TextStyle(fontSize: 25, color: Colors.white),
+        'Hola Carlos',
+        style: TextStyle(fontSize: 25),
       ),
     );
   }
@@ -56,16 +53,14 @@ class _WelcomeText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Row(
         children: const [
           Text(
-            'Welcome Back',
+            'Bienvenido de nuevo',
             style: TextStyle(
               fontSize: 25,
-              color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -75,32 +70,6 @@ class _WelcomeText extends StatelessWidget {
             color: Color(0xffFFAF00),
           )
         ],
-      ),
-    );
-  }
-}
-
-class _InputSearch extends StatelessWidget {
-  const _InputSearch();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: TextFormField(
-        autocorrect: false,
-        decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.search),
-          prefixIconColor: Colors.white,
-          hintText: 'what category are you searching for?',
-          hintStyle: const TextStyle(color: Colors.white),
-          filled: true,
-          fillColor: const Color(0xffB092ED),
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(width: 3, color: Color(0xffB092ED)),
-            borderRadius: BorderRadius.circular(50),
-          ),
-        ),
       ),
     );
   }

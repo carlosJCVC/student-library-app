@@ -1,4 +1,4 @@
-import 'package:student_library_app/src/features/books/infrastructure/models/BookModel.dart';
+import 'package:student_library_app/src/features/books/infrastructure/models/book_model.dart';
 
 class BooksResponse {
   final List<BookModel> results;

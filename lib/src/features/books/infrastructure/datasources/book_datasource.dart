@@ -6,6 +6,7 @@ import 'package:student_library_app/src/config/constants/environment.dart';
 import 'package:student_library_app/src/features/books/domain/datasources/datasources.dart';
 import 'package:student_library_app/src/features/books/domain/entities/entities.dart';
 import 'package:student_library_app/src/features/books/infrastructure/mappers/mappers.dart';
+import 'package:student_library_app/src/features/books/infrastructure/models/book_model.dart';
 
 class BookDatasource extends IBookDataSource {
   final dio = Dio(
@@ -71,13 +72,13 @@ class BookDatasource extends IBookDataSource {
   List<Book> _jsonToBooks(dynamic json) {
     final data = jsonDecode(json);
 
-    final List<Book> books = [];
+    final List<Book> books = BookMapper.castToList(data);
 
-    for (var item in data) {
-      final Book book = BookMapper.bookJsonToEntity(item);
+    // for (var item in data) {
+    //   final Book book = BookMapper.bookJsonToEntity(item);
 
-      books.add(book);
-    }
+    //   books.add(book);
+    // }
 
     return books;
   }

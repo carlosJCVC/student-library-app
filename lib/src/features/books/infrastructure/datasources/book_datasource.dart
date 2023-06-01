@@ -6,7 +6,6 @@ import 'package:student_library_app/src/config/constants/environment.dart';
 import 'package:student_library_app/src/features/books/domain/datasources/datasources.dart';
 import 'package:student_library_app/src/features/books/domain/entities/entities.dart';
 import 'package:student_library_app/src/features/books/infrastructure/mappers/mappers.dart';
-import 'package:student_library_app/src/features/books/infrastructure/models/book_model.dart';
 
 class BookDatasource extends IBookDataSource {
   final dio = Dio(
@@ -15,26 +14,28 @@ class BookDatasource extends IBookDataSource {
     ),
   );
 
-  @override
-  Future<List<Book>> getBooks() async {
-    const String criteria = 'most_viewed';
+  static const rangeCount = 10;
 
-    final response = await dio.post(
-      '/v1/get/?criteria=$criteria',
-    );
+  @override
+  Future<List<Book>> getBooks(int range) async {
+    const String criteria = 'most_viewed';
+    final String endpoint =
+        '/v1/get/?criteria=$criteria&results_range=$range,${range + rangeCount}';
+
+    final response = await dio.get(endpoint);
 
     return _jsonToBooks(response.data);
   }
 
   @override
-  Future<List<Book>> getBooksByCategory(String? category) async {
+  Future<List<Book>> getBooksByCategory(int range, String? category) async {
     const String criteria = 'most_viewed';
 
     if (category == null) {
-      return getBooks();
+      return getBooks(range);
     }
 
-    final response = await dio.post(
+    final response = await dio.get(
       '/v1/get/?category=$category&criteria=$criteria',
     );
 
@@ -67,6 +68,28 @@ class BookDatasource extends IBookDataSource {
     }
 
     return categories;
+  }
+
+  @override
+  Future<Book> getBookById(int id) async {
+    final response = await dio.get('/get/?id=$id&decode=true&json=true');
+
+    if (response.statusCode != 200) {
+      throw Exception('Book with ID: $id not found');
+    }
+
+    final List<Book> books = _jsonToBooks(response.data);
+
+    return books[0];
+  }
+
+  @override
+  Future<List<Book>> getBooksByTags(List<Tag> tags) async {
+    final String filters = tags.map((tag) => tag.name).toList().join(',');
+
+    final response = await dio.get('/get/?any_tags=[$filters]&order=newest');
+
+    return _jsonToBooks(response.data);
   }
 
   List<Book> _jsonToBooks(dynamic json) {

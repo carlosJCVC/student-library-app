@@ -68,7 +68,10 @@ class HomeViewState extends ConsumerState<_HomeView> {
           BooksCategory(categories: categories),
           HorizontalBooks(
             books: books,
-            loadNextPage: () {},
+            loadNextPage: () {
+              ref.read(bookProvider.notifier).loadBooks();
+            },
+            isLoading: ref.watch(bookProvider.notifier).isLoading,
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15),

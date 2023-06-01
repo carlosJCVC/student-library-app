@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:student_library_app/src/features/auth/presentation/providers/auth_provider/auth_state.dart';
 import 'package:student_library_app/src/features/auth/presentation/screens/screens.dart';
-import 'package:student_library_app/src/features/books/presentation/screens/books_screen.dart';
+import 'package:student_library_app/src/features/books/presentation/screens/screens.dart';
 import 'package:student_library_app/src/features/faculties/presentation/screens/faculties_screen.dart';
 import 'package:student_library_app/src/features/home/presentation/screens/screens.dart';
 import 'package:student_library_app/src/router/app_router_notifier.dart';
@@ -16,7 +16,7 @@ final goRouterProvider = Provider((ref) {
 });
 
 class AppRouter {
-  final _initialRoute = '/';
+  final _initialRoute = '/home';
 
   GoRouter getRoutes(GoRouterNotifier goRouterNotifier) {
     return GoRouter(
@@ -24,12 +24,44 @@ class AppRouter {
       refreshListenable: goRouterNotifier,
       debugLogDiagnostics: true,
       routes: [
-        buildRoute(path: '/splash', screen: const CheckAuthStatusScreen()),
-        buildRoute(path: '/', screen: const HomeScreen()),
-        buildRoute(path: '/login', screen: const LoginScreen()),
-        buildRoute(path: '/register', screen: const RegisterScreen()),
-        buildRoute(path: '/faculties', screen: const FacultiesScreen()),
-        buildRoute(path: '/books', screen: const BooksScreen()),
+        GoRoute(
+          path: '/splash',
+          builder: (context, state) => const CheckAuthStatusScreen(),
+        ),
+        GoRoute(
+          path: '/home',
+          builder: (context, state) => const HomeScreen(),
+        ),
+        GoRoute(
+          path: '/login',
+          builder: (context, state) => const LoginScreen(),
+        ),
+        GoRoute(
+          path: '/register',
+          builder: (context, state) => const RegisterScreen(),
+        ),
+        GoRoute(
+          path: '/faculties',
+          builder: (context, state) => const FacultiesScreen(),
+        ),
+        GoRoute(
+          path: '/books',
+          builder: (context, state) => const BooksScreen(),
+          routes: [
+            GoRoute(
+              path: ':id',
+              builder: (context, state) {
+                final bookId = int.parse(state.pathParameters["id"] ?? '0');
+
+                return BookScreen(bookId: bookId);
+              },
+            ),
+          ],
+        ),
+        GoRoute(
+          path: '/',
+          redirect: (_, __) => '/home/0',
+        )
       ],
       // redirect: (context, state) {
       //   final isGoingTo = state.matchedLocation;
@@ -56,13 +88,6 @@ class AppRouter {
 
       //   return null;
       // },
-    );
-  }
-
-  GoRoute buildRoute({required String path, required Widget screen}) {
-    return GoRoute(
-      path: path,
-      builder: (context, state) => screen,
     );
   }
 }

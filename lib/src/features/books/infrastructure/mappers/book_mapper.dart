@@ -10,6 +10,7 @@ class BookMapper {
         contentShort: book.contentShort,
         publisher: book.publisher,
         publisherDate: book.publisherDate,
+        pages: book.pages,
         thumbnail: book.thumbnail,
         cover: book.cover,
         language: book.language,

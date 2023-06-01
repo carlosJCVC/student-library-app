@@ -1,9 +1,13 @@
 import 'package:student_library_app/src/features/books/domain/entities/entities.dart';
 
 abstract class IBookDataSource {
-  Future<List<Book>> getBooks();
+  Future<List<Book>> getBooks(int range);
 
-  Future<List<Book>> getBooksByCategory(String? category);
+  Future<List<Book>> getBooksByCategory(int range, String? category);
 
   Future<List<Category>> getCategories();
+
+  Future<Book> getBookById(int id);
+
+  Future<List<Book>> getBooksByTags(List<Tag> tags);
 }

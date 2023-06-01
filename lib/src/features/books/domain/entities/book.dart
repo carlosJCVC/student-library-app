@@ -8,6 +8,7 @@ class Book {
   final String contentShort;
   final String publisher;
   final String publisherDate;
+  final String pages;
   final String thumbnail;
   final String cover;
   final String language;
@@ -24,6 +25,7 @@ class Book {
     required this.contentShort,
     required this.publisher,
     required this.publisherDate,
+    required this.pages,
     required this.urlDetails,
     required this.thumbnail,
     required this.cover,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:animate_do/animate_do.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:student_library_app/src/features/books/domain/entities/entities.dart';
 
@@ -9,6 +10,7 @@ class HorizontalBooks extends StatefulWidget {
   final String? title;
   final String? subTitle;
   final VoidCallback? loadNextPage;
+  final bool isLoading;
 
   const HorizontalBooks({
     super.key,
@@ -16,6 +18,7 @@ class HorizontalBooks extends StatefulWidget {
     this.title,
     this.subTitle,
     this.loadNextPage,
+    this.isLoading = false,
   });
 
   @override
@@ -48,20 +51,31 @@ class _HorizontalBooksState extends State<HorizontalBooks> {
 
   @override
   Widget build(BuildContext context) {
+    final displayTitle = (widget.title != null || widget.subTitle != null);
+
+    if (widget.isLoading) {
+      return SizedBox(
+        height: displayTitle ? 330 : 280,
+        child: const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     if (widget.books.isEmpty) {
-      return const SizedBox(
-        height: 300,
-        child: Center(
+      return SizedBox(
+        height: displayTitle ? 330 : 280,
+        child: const Center(
           child: Text('No se encontraron libros para esta categoria.'),
         ),
       );
     }
 
     return SizedBox(
-      height: 280,
+      height: displayTitle ? 330 : 280,
       child: Column(
         children: [
-          if (widget.title != null || widget.subTitle != null)
+          if (displayTitle)
             _Title(title: widget.title, subTitle: widget.subTitle),
           Expanded(
             child: ListView.builder(
@@ -103,7 +117,7 @@ class _BookSlide extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: GestureDetector(
-                onTap: () => {},
+                onTap: () => context.push('/books/${book.id}'),
                 child: FadeInImage(
                   height: 220,
                   fit: BoxFit.cover,
